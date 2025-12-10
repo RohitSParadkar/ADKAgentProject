@@ -1,6 +1,6 @@
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_ollama import OllamaEmbeddings
 from langchain_community.vectorstores import Chroma
 
 # ✅ Load full PDF
@@ -10,7 +10,7 @@ documents = loader.load()
 # ✅ Split into chunks
 text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=800,
-    chunk_overlap=100
+    chunk_overlap=50
 )
 chunks = text_splitter.split_documents(documents)
 
@@ -32,8 +32,8 @@ vector_db.persist()
 
 print("✅ Embeddings created and stored successfully!")
 
-query = "What is the email of candidate"
-docs = vector_db.similarity_search(query, k=3)
+query = "give me candidate email"
+docs = vector_db.similarity_search(query, k=2)
 
 for i, doc in enumerate(docs, 1):
     print(f"\n--- Result {i} ---")
